@@ -1,5 +1,6 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace FacebookApi.Models
 {
@@ -14,6 +15,10 @@ namespace FacebookApi.Models
 
         [BsonElement("lastName")]
         public string LastName { get; set; }
+        
+        [BsonElement("birthdate")]
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime Birthdate { get; set; }
 
         [BsonElement("email")]
         public string Email { get; set; }
