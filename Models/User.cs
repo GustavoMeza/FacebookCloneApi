@@ -4,7 +4,7 @@ using System;
 
 namespace FacebookApi.Models
 {
-    public class User
+    public class User: MongoCollection
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

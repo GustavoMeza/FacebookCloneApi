@@ -33,6 +33,10 @@ namespace FacebookApi
             services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
             services.AddSingleton<UserService>();
+            services.AddSingleton<FriendshipService>();
+            services.AddSingleton<PostService>();
+            services.AddSingleton<LikeService>();
+            services.AddSingleton<CommentService>();
 
             services.AddControllers();
         }

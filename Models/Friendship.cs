@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace FacebookApi.Models
 {
-    public class Friendship
+    public class Friendship : MongoCollection
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

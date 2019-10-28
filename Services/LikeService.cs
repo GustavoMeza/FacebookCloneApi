@@ -5,18 +5,18 @@ using System.Linq;
 
 namespace FacebookApi.Services
 {
-    public class UserService : CollectionManager<User>
+    public class LikeService : CollectionManager<Like>
     {
-        private readonly IMongoCollection<User> _collection; 
+        private readonly IMongoCollection<Like> _collection;
 
-        public UserService(IDatabaseSettings settings)
+        public LikeService(IDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
-            _collection = database.GetCollection<User>(settings.UsersCollectionName);
+            _collection = database.GetCollection<Like>(settings.LikesCollectionName);
         }
-
-        override protected IMongoCollection<User> getCollection() {
+        
+        override protected IMongoCollection<Like> getCollection() {
             return _collection;
         }
     }
