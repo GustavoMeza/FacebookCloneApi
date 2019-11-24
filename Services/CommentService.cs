@@ -19,5 +19,14 @@ namespace FacebookApi.Services
         override protected IMongoCollection<Comment> getCollection() {
             return _collection;
         }
+
+        public List<string> GetWithPostId(string id) {
+            var allComments = Get();
+            var comments =
+                from comment in allComments
+                where comment.PostId == id
+                select comment.Id;
+            return comments.ToList();
+        }
     }
 }

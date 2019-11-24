@@ -20,7 +20,7 @@ namespace FacebookApi.Controllers
         public ActionResult<List<Like>> Get() =>
             _likeService.Get();
 
-        [HttpGet("{id:length(24)}", Name = "GetLikes")]
+        [HttpGet("{id:length(24)}")]
         public ActionResult<Like> Get(string id)
         {
             var like = _likeService.Get(id);
@@ -32,6 +32,10 @@ namespace FacebookApi.Controllers
 
             return like;
         }
+        
+        [HttpGet("forPost/{id:length(24)}")]
+        public ActionResult<List<string>> GetForPostId(string id) => 
+            _likeService.GetWithPostId(id);
 
         [HttpPost]
         public ActionResult<Like> Create(Like like)

@@ -33,6 +33,10 @@ namespace FacebookApi.Controllers
             return comment;
         }
 
+        [HttpGet("forPost/{id:length(24)}")]
+        public ActionResult<List<string>> GetWithPostId(string id) =>
+            _commentService.GetWithPostId(id);
+
         [HttpPost]
         public ActionResult<Comment> Create(Comment comment)
         {
