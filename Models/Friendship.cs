@@ -17,7 +17,5 @@ namespace FacebookApi.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string UserBId { get; set; }
         
-        [BsonElement("accepted")]
-        public bool Accepted { get; set; }
     }
 }

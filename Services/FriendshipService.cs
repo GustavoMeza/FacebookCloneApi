@@ -19,5 +19,14 @@ namespace FacebookApi.Services
         override protected IMongoCollection<Friendship> getCollection() {
             return _collection;
         }
+
+        public List<string> GetFriendsOf(string userId) {
+            var allFriendships = Get();
+            var friendIds =
+                from friendship in allFriendships
+                where userId == friendship.UserAId || userId == friendship.UserBId
+                select friendship.UserAId == userId ? friendship.UserBId : friendship.UserAId;
+            return friendIds.ToList();
+        }
     }
 }

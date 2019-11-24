@@ -19,5 +19,14 @@ namespace FacebookApi.Services
         override protected IMongoCollection<Post> getCollection() {
             return _collection;
         }
+
+        public List<string> GetFromAuthors(List<string> userIds) {
+            var allPosts = Get();
+            var postIds =
+                from post in allPosts
+                where userIds.Contains(post.UserId)
+                select post.Id;
+            return postIds.ToList();
+        }
     }
 }
