@@ -20,7 +20,7 @@ namespace FacebookApi.Controllers
         public ActionResult<List<Like>> Get() =>
             _likeService.Get();
 
-        [HttpGet("{id:length(24)}")]
+        [HttpGet("{id:length(24)}", Name = "GetLike")]
         public ActionResult<Like> Get(string id)
         {
             var like = _likeService.Get(id);
@@ -40,9 +40,13 @@ namespace FacebookApi.Controllers
         [HttpPost]
         public ActionResult<Like> Create(Like like)
         {
+            if(_likeService.IsDuplicate(like)) {
+                return NotFound();
+            }
+
             _likeService.Create(like);
 
-            return CreatedAtRoute("GetLikes", new { id = like.Id.ToString() }, like);
+            return CreatedAtRoute("GetLike", new { id = like.Id.ToString() }, like);
         }
 
         [HttpPut("{id:length(24)}")]

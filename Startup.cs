@@ -34,7 +34,8 @@ namespace FacebookApi
             {
                 options.AddPolicy(MyAllowSpecificOrigins, builder =>
                 {
-                    builder.WithOrigins("http://127.0.0.1:8000");
+                    builder.WithOrigins("http://127.0.0.1:8000")
+                           .AllowAnyHeader();
                 });
             });
 

@@ -1,6 +1,7 @@
 using FacebookApi.Models;
 using FacebookApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace FacebookApi.Controllers
@@ -36,6 +37,7 @@ namespace FacebookApi.Controllers
         [HttpPost]
         public ActionResult<Post> Create(Post post)
         {
+            post.CreateTime = DateTime.Now;
             _postService.Create(post);
 
             return CreatedAtRoute("GetPost", new { id = post.Id.ToString() }, post);

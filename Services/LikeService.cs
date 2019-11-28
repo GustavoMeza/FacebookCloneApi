@@ -28,5 +28,14 @@ namespace FacebookApi.Services
                 select like.Id;
             return likes.ToList();
         }
+
+        public bool IsDuplicate(Like like) {
+            var allLikes = Get();
+            var duplicates =
+                from _like in allLikes
+                where _like.PostId == like.PostId && _like.UserId == like.UserId
+                select _like.Id;
+            return duplicates.Any();
+        }
     }
 }

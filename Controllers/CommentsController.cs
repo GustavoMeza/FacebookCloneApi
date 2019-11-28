@@ -2,6 +2,7 @@ using FacebookApi.Models;
 using FacebookApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System;
 
 namespace FacebookApi.Controllers
 {
@@ -40,6 +41,7 @@ namespace FacebookApi.Controllers
         [HttpPost]
         public ActionResult<Comment> Create(Comment comment)
         {
+            comment.CreateTime = DateTime.Now;
             _commentService.Create(comment);
 
             return CreatedAtRoute("GetComment", new { id = comment.Id.ToString() }, comment);
