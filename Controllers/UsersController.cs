@@ -40,35 +40,5 @@ namespace FacebookApi.Controllers
 
             return CreatedAtRoute("GetUser", new { id = user.Id.ToString() }, user);
         }
-
-        [HttpPut("{id:length(24)}")]
-        public IActionResult Update(string id, User userIn)
-        {
-            var user = _userService.Get(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _userService.Update(id, userIn);
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id:length(24)}")]
-        public IActionResult Delete(string id)
-        {
-            var user = _userService.Get(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _userService.Remove(user.Id);
-
-            return NoContent();
-        }
     }
 }

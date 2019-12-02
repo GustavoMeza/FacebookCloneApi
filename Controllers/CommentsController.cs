@@ -1,6 +1,7 @@
 using FacebookApi.Models;
 using FacebookApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System;
 
@@ -10,16 +11,14 @@ namespace FacebookApi.Controllers
     [ApiController]
     public class CommentsController : ControllerBase
     {
+        private readonly AuthService _authService;
         private readonly CommentService _commentService;
 
-        public CommentsController(CommentService commentService)
+        public CommentsController(CommentService commentService, AuthService authService)
         {
             _commentService = commentService;
+            _authService = authService;
         }
-
-        [HttpGet]
-        public ActionResult<List<Comment>> Get() =>
-            _commentService.Get();
 
         [HttpGet("{id:length(24)}", Name = "GetComment")]
         public ActionResult<Comment> Get(string id)
@@ -39,42 +38,14 @@ namespace FacebookApi.Controllers
             _commentService.GetWithPostId(id);
 
         [HttpPost]
+        [Authorize]
         public ActionResult<Comment> Create(Comment comment)
         {
+            comment.UserId = _authService.GetIdentity(HttpContext);
             comment.CreateTime = DateTime.Now;
             _commentService.Create(comment);
 
             return CreatedAtRoute("GetComment", new { id = comment.Id.ToString() }, comment);
-        }
-
-        [HttpPut("{id:length(24)}")]
-        public IActionResult Update(string id, Comment commentIn)
-        {
-            var comment = _commentService.Get(id);
-
-            if (comment == null)
-            {
-                return NotFound();
-            }
-
-            _commentService.Update(id, commentIn);
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id:length(24)}")]
-        public IActionResult Delete(string id)
-        {
-            var comment = _commentService.Get(id);
-
-            if (comment == null)
-            {
-                return NotFound();
-            }
-
-            _commentService.Remove(comment.Id);
-
-            return NoContent();
         }
     }
 }
