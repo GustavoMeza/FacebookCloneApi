@@ -13,11 +13,17 @@ namespace FacebookApi.Services
 {
     public class AuthService
     {
+        public readonly ISecretSettings _secretSettings;
+
+        public AuthService(ISecretSettings secretSettings) {
+            _secretSettings = secretSettings;
+        }
+
+
         public string Login(string id)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var secret = "Todo: make secret key";
-            var key = Encoding.ASCII.GetBytes(secret);
+            var key = Encoding.ASCII.GetBytes(_secretSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]

@@ -34,8 +34,21 @@ namespace FacebookApi
         {
             services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
             
-            var secret = "Todo: make secret key";
-            var key = Encoding.ASCII.GetBytes(secret);
+            services.Configure<SecretSettings>(Configuration.GetSection(nameof(SecretSettings)));
+
+            services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+            services.AddSingleton<ISecretSettings>(sp => sp.GetRequiredService<IOptions<SecretSettings>>().Value);
+    
+            services.AddSingleton<UserService>();
+            services.AddSingleton<FriendshipService>();
+            services.AddSingleton<PostService>();
+            services.AddSingleton<LikeService>();
+            services.AddSingleton<CommentService>();
+            services.AddSingleton<AuthService>();
+
+            var secretSettings = new SecretSettings();
+            Configuration.GetSection(nameof(SecretSettings)).Bind(secretSettings);
+            var key = Encoding.ASCII.GetBytes(secretSettings.Secret);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options => {
                 options.RequireHttpsMetadata = false;
@@ -48,15 +61,6 @@ namespace FacebookApi
                     ValidateAudience = false
                 };
             });
-
-            services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
-    
-            services.AddSingleton<UserService>();
-            services.AddSingleton<FriendshipService>();
-            services.AddSingleton<PostService>();
-            services.AddSingleton<LikeService>();
-            services.AddSingleton<CommentService>();
-            services.AddSingleton<AuthService>();
 
             services.AddControllers();
         }
