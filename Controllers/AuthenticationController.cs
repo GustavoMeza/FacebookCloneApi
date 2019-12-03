@@ -19,8 +19,8 @@ namespace FacebookApi.Controllers
             _authService = authService;
         }
 
-        [HttpPost("Login")]
-        public ActionResult<string> Login(User user)
+        [HttpPost("Signin")]
+        public ActionResult<string> Signin(User user)
         {
             var userId = _userService.IsRegistered(user);
             if(String.IsNullOrEmpty(userId)) {
@@ -30,6 +30,17 @@ namespace FacebookApi.Controllers
             var token = _authService.Login(userId);
 
             return Ok(token);
+        }
+
+        [HttpPost("Signup")]
+        public ActionResult<string> Signup(User user)
+        {
+            if(_userService.IsEmailUsed(user.Email)) {
+                return Unauthorized();
+            }
+            _userService.Create(user);
+
+            return Signin(user);
         }
 
         [HttpGet("Validate")]

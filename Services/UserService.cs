@@ -28,5 +28,14 @@ namespace FacebookApi.Services
                 select user.Id;
             return userIds.FirstOrDefault();
         }
+
+        public bool IsEmailUsed(string email) {
+            var allUsers = Get();
+            var userIds =
+                from user in allUsers
+                where user.Email == email
+                select user.Id;
+            return userIds.Any();
+        }
     }
 }

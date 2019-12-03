@@ -28,5 +28,12 @@ namespace FacebookApi.Services
                 select friendship.UserAId == userId ? friendship.UserBId : friendship.UserAId;
             return friendIds.ToList();
         }
+
+        public bool IsDuplicate(Friendship friendship) {
+            if(GetFriendsOf(friendship.UserAId).Contains(friendship.UserBId)) {
+                return true;
+            }
+            return false;
+        }
     }
 }

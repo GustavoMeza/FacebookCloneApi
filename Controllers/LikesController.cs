@@ -19,7 +19,7 @@ namespace FacebookApi.Controllers
             _likeService = likeService;
         }
         
-        [HttpGet("forPost/{id:length(24)}")]
+        [HttpGet("forPost/{id:length(24)}", Name="GetLike")]
         public ActionResult<List<string>> GetForPostId(string id) => 
             _likeService.GetWithPostId(id);
 
